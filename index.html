@@ -601,46 +601,41 @@ footer p span { color:var(--gold); }
 @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
 
 /* ── AVATAR PHOTO ── */
-/* canvas bg layer */
+/* canvas bg layer - THREE.JS gem scene */
 #canvas3d {
   position:absolute;inset:0;z-index:1;pointer-events:none;
 }
+/* robot svg overlay */
 #avatar-scene {
   position:absolute;inset:0;z-index:2;pointer-events:none;
 }
 #avatar-wrap {
   position:absolute;
-  right:6%;
+  right:4%;
   bottom:0;
-  width:clamp(300px, 36vw, 500px);
+  width:clamp(280px, 34vw, 480px);
   height:100%;
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  animation:avatarFloat 4s ease-in-out infinite;
   opacity:0;
-  animation-fill-mode:forwards;
-  animation-delay:0.8s;
-}
-@keyframes avatarFloat {
-  0%,100%{transform:translateY(0px);}
-  50%{transform:translateY(-16px);}
-}
-#avatar-img {
-  position:relative;
-  z-index:4;
-  height:88vh;
-  max-height:750px;
-  width:auto;
-  object-fit:contain;
-  object-position:bottom center;
-  display:block;
-  filter:drop-shadow(0 0 30px rgba(232,160,48,0.4)) drop-shadow(0 0 70px rgba(212,98,42,0.25)) drop-shadow(0 4px 80px rgba(0,0,0,0.8));
-  animation:avatarReveal 1.2s 0.8s both;
+  animation:avatarReveal 1s 0.8s forwards;
 }
 @keyframes avatarReveal {
-  from{opacity:0;transform:scale(0.93) translateY(30px);}
-  to{opacity:1;transform:scale(1) translateY(0);}
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+#robot-svg-wrap {
+  position:relative;
+  z-index:4;
+  width:100%;
+  max-width:420px;
+  filter:drop-shadow(0 0 40px rgba(232,160,48,0.25)) drop-shadow(0 10px 60px rgba(0,0,0,0.6));
+}
+#robot-svg {
+  width:100%;
+  height:auto;
+  display:block;
 }
 /* Glowing base shadow under feet */
 .avatar-glow-base {
@@ -750,9 +745,9 @@ footer p span { color:var(--gold); }
 <!-- ═══ HERO ═══ -->
 <section id="hero">
   <div class="grid-bg"></div>
-  <!-- particles canvas: z-index 1 -->
+  <!-- THREE.JS canvas: gem + particles bg -->
   <canvas id="canvas3d"></canvas>
-  <!-- photo avatar overlay: z-index 2 -->
+  <!-- Robot SVG overlay on right side -->
   <div id="avatar-scene">
     <div id="avatar-wrap">
       <div class="avatar-hud-ring ring1"></div>
@@ -762,32 +757,131 @@ footer p span { color:var(--gold); }
       <div class="avatar-corner bl"></div>
       <div class="avatar-corner br"></div>
       <div class="avatar-scan"></div>
-      <img id="avatar-img" src="nityay_cutout.png" alt="Nityay Bhavsar"/>
-      <div class="avatar-glow-base"></div>
-      <div class="avatar-hud-tag top">PLAYER_01</div>
+      <div id="robot-svg-wrap">
+        <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg" id="robot-svg">
+          <defs>
+            <linearGradient id="monitorG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2a2218"/><stop offset="100%" stop-color="#1a1410"/></linearGradient>
+            <linearGradient id="screenG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0e1a12"/><stop offset="100%" stop-color="#081008"/></linearGradient>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0%" stop-color="#2e2820"/><stop offset="100%" stop-color="#1a1510"/></linearGradient>
+            <linearGradient id="armG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#252018"/><stop offset="100%" stop-color="#1a1510"/></linearGradient>
+            <linearGradient id="kbG" x1="0" y1="0" x2="0.2" y2="1"><stop offset="0%" stop-color="#201c14"/><stop offset="100%" stop-color="#0e0c08"/></linearGradient>
+            <linearGradient id="deskG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a2418"/><stop offset="100%" stop-color="#1a1610"/></linearGradient>
+          </defs>
+          <!-- floating binary -->
+          <text x="72" y="148" font-family="monospace" font-size="18" fill="#e8a030" opacity="0.55" font-weight="700">0</text>
+          <text x="90" y="118" font-family="monospace" font-size="15" fill="#e8a030" opacity="0.4">1</text>
+          <text x="58" y="188" font-family="monospace" font-size="16" fill="#e8a030" opacity="0.45">1</text>
+          <text x="100" y="162" font-family="monospace" font-size="13" fill="#e8a030" opacity="0.35">1</text>
+          <text x="45" y="228" font-family="monospace" font-size="17" fill="#e8a030" opacity="0.4">0</text>
+          <text x="78" y="255" font-family="monospace" font-size="14" fill="#e8a030" opacity="0.3">1</text>
+          <text x="52" y="295" font-family="monospace" font-size="16" fill="#e8a030" opacity="0.35">0</text>
+          <text x="105" y="205" font-family="monospace" font-size="12" fill="#e8a030" opacity="0.28">0</text>
+          <text x="62" y="335" font-family="monospace" font-size="13" fill="#e8a030" opacity="0.25">1</text>
+          <!-- DESK -->
+          <rect x="80" y="430" width="360" height="18" rx="4" fill="url(#deskG)" stroke="#e8a030" stroke-width="1.2" opacity="0.9"/>
+          <rect x="120" y="448" width="12" height="30" rx="2" fill="#1a1510" opacity="0.6"/>
+          <rect x="388" y="448" width="12" height="30" rx="2" fill="#1a1510" opacity="0.6"/>
+          <rect x="80" y="430" width="360" height="4" rx="4" fill="#e8a030" opacity="0.12"/>
+          <!-- KEYBOARD -->
+          <rect x="130" y="398" width="240" height="36" rx="6" fill="url(#kbG)" stroke="#e8a030" stroke-width="1.5"/>
+          <rect x="130" y="398" width="240" height="5" rx="6" fill="#e8a030" opacity="0.08"/>
+          <rect x="146" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="168" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="190" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="212" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="234" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="256" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="278" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="300" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="322" y="405" width="18" height="7" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="152" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="172" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="192" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="212" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="232" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="252" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="272" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="292" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="312" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.1"/>
+          <rect x="332" y="416" width="16" height="6" rx="1.5" fill="#e8a030" opacity="0.12"/>
+          <rect x="186" y="426" width="128" height="5" rx="2" fill="#e8a030" opacity="0.14"/>
+          <!-- HANDS left -->
+          <path d="M175 390 Q168 380 162 370 Q158 360 162 352 Q166 344 174 344 Q182 344 185 352 Q188 345 195 343 Q202 341 205 348 Q208 342 215 341 Q222 340 224 348 Q228 343 234 344 Q240 345 240 353 L238 370 Q232 382 228 390Z" fill="url(#armG)" stroke="#e8a030" stroke-width="1.8"/>
+          <line x1="178" y1="360" x2="178" y2="375" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <line x1="193" y1="355" x2="193" y2="372" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <line x1="208" y1="354" x2="208" y2="371" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <line x1="223" y1="357" x2="223" y2="372" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <!-- HANDS right -->
+          <path d="M280 390 Q272 382 268 370 Q268 353 274 344 Q280 340 287 342 Q290 335 298 334 Q306 333 308 341 Q312 335 320 335 Q328 335 329 343 Q334 338 341 340 Q347 342 346 352 Q344 365 338 378 Q332 388 325 390Z" fill="url(#armG)" stroke="#e8a030" stroke-width="1.8"/>
+          <line x1="280" y1="360" x2="280" y2="375" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <line x1="294" y1="354" x2="294" y2="371" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <line x1="310" y1="354" x2="310" y2="371" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <line x1="325" y1="357" x2="324" y2="373" stroke="#e8a030" stroke-width="1" opacity="0.3"/>
+          <!-- BODY -->
+          <path d="M168 280 Q162 268 162 252 L162 320 Q162 355 168 378 Q180 395 200 400 L250 402 L300 400 Q320 395 332 378 Q338 355 338 320 L338 252 Q338 268 332 280Z" fill="url(#bodyG)" stroke="#e8a030" stroke-width="2"/>
+          <rect x="162" y="248" width="176" height="36" rx="10" fill="url(#bodyG)" stroke="#e8a030" stroke-width="2"/>
+          <rect x="210" y="290" width="80" height="55" rx="6" fill="#161210" stroke="#e8a030" stroke-width="1.2"/>
+          <rect x="210" y="290" width="80" height="4" rx="6" fill="#e8a030" opacity="0.2"/>
+          <line x1="222" y1="304" x2="278" y2="304" stroke="#e8a030" stroke-width="1.2" opacity="0.4"/>
+          <line x1="222" y1="312" x2="278" y2="312" stroke="#e8a030" stroke-width="1.2" opacity="0.4"/>
+          <line x1="222" y1="320" x2="278" y2="320" stroke="#e8a030" stroke-width="1.2" opacity="0.35"/>
+          <circle cx="250" cy="333" r="8" fill="#1a1510" stroke="#e8a030" stroke-width="1.5"/>
+          <circle cx="250" cy="333" r="4" fill="#e8a030" opacity="0.7"/>
+          <circle cx="250" cy="333" r="2" fill="#fff" opacity="0.6"/>
+          <rect x="165" y="298" width="22" height="40" rx="4" fill="#1a1510" stroke="#e8a030" stroke-width="1" opacity="0.8"/>
+          <line x1="170" y1="308" x2="182" y2="308" stroke="#e8a030" stroke-width="1" opacity="0.4"/>
+          <line x1="170" y1="316" x2="182" y2="316" stroke="#e8a030" stroke-width="1" opacity="0.4"/>
+          <line x1="170" y1="324" x2="182" y2="324" stroke="#e8a030" stroke-width="1" opacity="0.4"/>
+          <rect x="313" y="298" width="22" height="40" rx="4" fill="#1a1510" stroke="#e8a030" stroke-width="1" opacity="0.8"/>
+          <line x1="318" y1="308" x2="330" y2="308" stroke="#e8a030" stroke-width="1" opacity="0.4"/>
+          <line x1="318" y1="316" x2="330" y2="316" stroke="#e8a030" stroke-width="1" opacity="0.4"/>
+          <line x1="318" y1="324" x2="330" y2="324" stroke="#e8a030" stroke-width="1" opacity="0.4"/>
+          <!-- ARMS -->
+          <path d="M162 262 Q138 268 128 285 Q118 305 122 328 Q126 348 140 358 Q152 366 165 360 L170 340 Q158 338 152 326 Q146 310 152 295 Q158 282 168 278Z" fill="url(#armG)" stroke="#e8a030" stroke-width="1.8"/>
+          <circle cx="163" cy="265" r="10" fill="#1e1a14" stroke="#e8a030" stroke-width="1.5"/>
+          <circle cx="163" cy="265" r="5" fill="#e8a030" opacity="0.3"/>
+          <path d="M338 262 Q362 268 372 285 Q382 305 378 328 Q374 348 360 358 Q348 366 335 360 L330 340 Q342 338 348 326 Q354 310 348 295 Q342 282 332 278Z" fill="url(#armG)" stroke="#e8a030" stroke-width="1.8"/>
+          <circle cx="337" cy="265" r="10" fill="#1e1a14" stroke="#e8a030" stroke-width="1.5"/>
+          <circle cx="337" cy="265" r="5" fill="#e8a030" opacity="0.3"/>
+          <!-- NECK -->
+          <rect x="228" y="218" width="44" height="34" rx="5" fill="url(#bodyG)" stroke="#e8a030" stroke-width="1.8"/>
+          <line x1="228" y1="228" x2="272" y2="228" stroke="#e8a030" stroke-width="1" opacity="0.35"/>
+          <line x1="228" y1="238" x2="272" y2="238" stroke="#e8a030" stroke-width="1" opacity="0.35"/>
+          <!-- MONITOR HEAD -->
+          <rect x="142" y="52" width="216" height="172" rx="22" fill="#0e0c08" opacity="0.5"/>
+          <rect x="138" y="48" width="224" height="172" rx="22" fill="url(#monitorG)" stroke="#e8a030" stroke-width="2.5"/>
+          <rect x="220" y="38" width="60" height="22" rx="8" fill="#252018" stroke="#e8a030" stroke-width="1.8"/>
+          <rect x="236" y="42" width="28" height="8" rx="4" fill="#1a1510" stroke="#e8a030" stroke-width="1" opacity="0.7"/>
+          <circle cx="158" cy="68" r="4" fill="#1a1510" stroke="#e8a030" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="342" cy="68" r="4" fill="#1a1510" stroke="#e8a030" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="158" cy="200" r="4" fill="#1a1510" stroke="#e8a030" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="342" cy="200" r="4" fill="#1a1510" stroke="#e8a030" stroke-width="1.2" opacity="0.7"/>
+          <rect x="158" y="68" width="184" height="136" rx="8" fill="#080c08"/>
+          <rect x="162" y="72" width="176" height="128" rx="6" fill="url(#screenG)"/>
+          <text x="202" y="122" font-family="monospace" font-size="36" fill="#e8a030" font-weight="700" opacity="0.9">&lt;/&gt;</text>
+          <rect x="296" y="128" width="12" height="18" rx="1" fill="#e8a030" opacity="0.7"><animate attributeName="opacity" values="0.7;0;0.7" dur="1s" repeatCount="indefinite"/></rect>
+          <rect x="180" y="155" width="60" height="4" rx="2" fill="#e8a030" opacity="0.25"/>
+          <rect x="180" y="163" width="90" height="4" rx="2" fill="#e8a030" opacity="0.18"/>
+          <rect x="180" y="171" width="45" height="4" rx="2" fill="#e8a030" opacity="0.22"/>
+          <rect x="200" y="216" width="100" height="8" rx="4" fill="#252018" stroke="#e8a030" stroke-width="1.2"/>
+          <!-- PLANTS -->
+          <path d="M118 395 Q112 375 118 358 Q124 342 132 348 Q126 362 124 378 Q122 390 122 400Z" fill="#1a3018" stroke="#2a5028" stroke-width="1.5"/>
+          <path d="M122 380 Q108 368 105 352 Q112 355 118 365 Q122 372 122 380Z" fill="#1a3018" stroke="#2a5028" stroke-width="1.2"/>
+          <path d="M122 365 Q132 348 138 342 Q136 352 130 362 Q126 370 122 375Z" fill="#1a3018" stroke="#2a5028" stroke-width="1.2"/>
+          <path d="M382 395 Q388 375 382 358 Q376 342 368 348 Q374 362 376 378 Q378 390 378 400Z" fill="#1a3018" stroke="#2a5028" stroke-width="1.5"/>
+          <path d="M378 380 Q392 368 395 352 Q388 355 382 365 Q378 372 378 380Z" fill="#1a3018" stroke="#2a5028" stroke-width="1.2"/>
+          <path d="M378 365 Q368 348 362 342 Q364 352 370 362 Q374 370 378 375Z" fill="#1a3018" stroke="#2a5028" stroke-width="1.2"/>
+          <!-- glow base -->
+          <ellipse cx="250" cy="448" rx="160" ry="10" fill="#e8a030" opacity="0.08"/>
+          <!-- robot float animation -->
+          <animateTransform attributeName="transform" type="translate" values="0,0; 0,-12; 0,0" dur="4s" repeatCount="indefinite"/>
+        </svg>
+      </div>
+      <div class="avatar-hud-tag top">DEV_UNIT_01</div>
       <div class="avatar-hud-tag bot">CS × GAMING TECH</div>
       <div class="avatar-dot d1"></div>
       <div class="avatar-dot d2"></div>
       <div class="avatar-dot d3"></div>
-    </div>
-  </div>
-
-  <!-- HUD: player stats top-right -->
-  <div class="hud-top">
-    <div class="hud-bar-wrap">
-      <span class="hud-label" style="color:var(--hp)">HP</span>
-      <div class="hud-bar"><div class="hud-bar-fill hp-fill"></div></div>
-      <span class="hud-val">88/100</span>
-    </div>
-    <div class="hud-bar-wrap">
-      <span class="hud-label" style="color:var(--mp)">MP</span>
-      <div class="hud-bar"><div class="hud-bar-fill mp-fill"></div></div>
-      <span class="hud-val">72/100</span>
-    </div>
-    <div class="hud-bar-wrap">
-      <span class="hud-label" style="color:var(--xp)">XP</span>
-      <div class="hud-bar"><div class="hud-bar-fill xp-fill"></div></div>
-      <span class="hud-val">91/100</span>
     </div>
   </div>
 
@@ -1258,59 +1352,96 @@ function handleForm(btn){
   window.location.href=`mailto:nityay1601@gmail.com?subject=Portfolio Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(msg)}`;
 }
 
-/* ══ THREE.JS: PARTICLES ONLY around avatar ══ */
+/* ══ THREE.JS: GEM + ORBITING RINGS + PARTICLES ══ */
 (function(){
   const canvas=document.getElementById('canvas3d');
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.setSize(window.innerWidth,window.innerHeight);
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,100);
-  camera.position.set(0,0,8);
+  const camera=new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.1,100);
+  camera.position.set(4,1.5,7);
 
   /* LIGHTS */
-  scene.add(new THREE.AmbientLight(0x1a100a,2));
-  const pL1=new THREE.PointLight(0xe8a030,6,16);pL1.position.set(3,2,4);scene.add(pL1);
-  const pL2=new THREE.PointLight(0xd4622a,4,12);pL2.position.set(-3,0,3);scene.add(pL2);
+  scene.add(new THREE.AmbientLight(0x1a100a,3));
+  const dLight=new THREE.DirectionalLight(0xe8a030,4);
+  dLight.position.set(5,8,5);scene.add(dLight);
+  const pL1=new THREE.PointLight(0xe8a030,8,14);pL1.position.set(2,2,3);scene.add(pL1);
+  const pL2=new THREE.PointLight(0xd4622a,5,10);pL2.position.set(-2,0,2);scene.add(pL2);
+  const pL3=new THREE.PointLight(0x4080ff,3,8);pL3.position.set(3,-1,4);scene.add(pL3);
 
-  /* EMBER PARTICLES */
-  const pCount=300;
-  const pPos=new Float32Array(pCount*3);
-  const pSpd=new Float32Array(pCount);
-  const pLife=new Float32Array(pCount);
-  for(let i=0;i<pCount;i++){
-    pPos[i*3]  =(Math.random()-0.5)*20;
-    pPos[i*3+1]=(Math.random()-0.5)*14;
-    pPos[i*3+2]=(Math.random()-0.5)*6-2;
-    pSpd[i]=0.004+Math.random()*0.008;
-    pLife[i]=Math.random();
-  }
-  const pGeo=new THREE.BufferGeometry();
-  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
-  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xe8a030,size:0.06,transparent:true,opacity:0.55})));
+  /* MATERIALS */
+  const crystalMat=new THREE.MeshStandardMaterial({color:0xffcc60,metalness:0.9,roughness:0.05,transparent:true,opacity:0.85,emissive:0xe8a030,emissiveIntensity:0.8});
+  const darkMat=new THREE.MeshStandardMaterial({color:0x1a1410,metalness:0.8,roughness:0.4});
+  const goldMat=new THREE.MeshStandardMaterial({color:0xe8a030,metalness:1,roughness:0.1,emissive:0x3a2000,emissiveIntensity:0.5});
+  const orangeMat=new THREE.MeshStandardMaterial({color:0xd4622a,metalness:0.7,roughness:0.2,emissive:0x3a1000,emissiveIntensity:0.3});
+  const wireMat=new THREE.MeshBasicMaterial({color:0xe8a030,wireframe:true,transparent:true,opacity:0.07});
 
-  /* WHITE SPARKS */
-  const sPos=new Float32Array(120*3);
-  for(let i=0;i<120;i++){sPos[i*3]=(Math.random()-0.5)*18;sPos[i*3+1]=(Math.random()-0.5)*12;sPos[i*3+2]=(Math.random()-0.5)*4-1;}
-  const sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
-  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xfff0c0,size:0.035,transparent:true,opacity:0.3})));
+  /* GEM GROUP */
+  const gemGroup=new THREE.Group();
+  gemGroup.position.set(1.5,0.3,0);
+  scene.add(gemGroup);
+  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(1.1,0),crystalMat);
+  gemGroup.add(gem);
+  const gemWire=new THREE.Mesh(new THREE.OctahedronGeometry(1.15,0),wireMat);
+  gemGroup.add(gemWire);
+  const innerGem=new THREE.Mesh(new THREE.OctahedronGeometry(0.55,0),
+    new THREE.MeshStandardMaterial({color:0xfff0a0,emissive:0xffc040,emissiveIntensity:3,transparent:true,opacity:0.6}));
+  gemGroup.add(innerGem);
 
-  /* ORBITING RINGS (decorative, far back) */
-  const rMat1=new THREE.MeshBasicMaterial({color:0xe8a030,transparent:true,opacity:0.08});
-  const rMat2=new THREE.MeshBasicMaterial({color:0xd4622a,transparent:true,opacity:0.06});
-  const oR1=new THREE.Mesh(new THREE.TorusGeometry(4,0.018,8,80),rMat1);
-  oR1.rotation.x=Math.PI/4;oR1.position.set(2,0,-2);scene.add(oR1);
-  const oR2=new THREE.Mesh(new THREE.TorusGeometry(5,0.012,8,80),rMat2);
-  oR2.rotation.x=Math.PI/3;oR2.rotation.z=Math.PI/5;oR2.position.set(-1,0,-3);scene.add(oR2);
-
-  /* FLOATING TETRA SHARDS */
+  /* FLOATING SHARDS */
   const shards=[];
-  const goldM=new THREE.MeshStandardMaterial({color:0xe8a030,metalness:0.9,roughness:0.1,emissive:0x3a2000,emissiveIntensity:0.4});
-  const orM=new THREE.MeshStandardMaterial({color:0xd4622a,metalness:0.8,roughness:0.2,emissive:0x3a1000,emissiveIntensity:0.3});
-  [[3.5,0.4,0.5,0.22,goldM],[-2.8,1,0.4,0.18,orM],[4,-0.8,0.3,0.14,goldM],[-3.2,-0.5,0.6,0.16,orM],[2.8,1.5,0.35,0.1,goldM]].forEach(([x,y,sp,sz,m])=>{
+  [[3.5,0.4,0.5,0.22,goldMat],[-2.8,1,0.4,0.18,orangeMat],[4,-0.8,0.3,0.14,goldMat],[-3.2,-0.5,0.6,0.16,orangeMat],[2.8,1.5,0.35,0.1,goldMat]].forEach(([x,y,sp,sz,m])=>{
     const mesh=new THREE.Mesh(new THREE.TetrahedronGeometry(sz,0),m.clone());
     mesh.position.set(x,y,0);scene.add(mesh);shards.push({mesh,baseY:y,speed:sp,t:Math.random()*10});
   });
+
+  /* PLATFORM */
+  const platformGroup=new THREE.Group();
+  platformGroup.position.set(1.5,-1.6,0);
+  scene.add(platformGroup);
+  const base=new THREE.Mesh(new THREE.CylinderGeometry(2,2.3,0.15,8),darkMat);
+  platformGroup.add(base);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(1.9,0.05,8,32),goldMat.clone());
+  ring.rotation.x=Math.PI/2;ring.position.y=0.1;platformGroup.add(ring);
+  const col=new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.35,1.2,8),darkMat);
+  col.position.y=0.7;platformGroup.add(col);
+  const cap=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.25,0.12,8),goldMat.clone());
+  cap.position.y=1.4;platformGroup.add(cap);
+  for(let i=0;i<4;i++){
+    const angle=i*Math.PI/2+Math.PI/4;
+    const pillar=new THREE.Mesh(new THREE.BoxGeometry(0.18,0.5,0.18),darkMat);
+    pillar.position.set(Math.cos(angle)*1.6,0.35,Math.sin(angle)*1.6);platformGroup.add(pillar);
+    const pillTop=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.08,0.22),goldMat.clone());
+    pillTop.position.set(Math.cos(angle)*1.6,0.63,Math.sin(angle)*1.6);platformGroup.add(pillTop);
+  }
+
+  /* ORBIT RINGS */
+  const oRing1=new THREE.Mesh(new THREE.TorusGeometry(2.4,0.014,8,80),
+    new THREE.MeshBasicMaterial({color:0xe8a030,transparent:true,opacity:0.18}));
+  oRing1.rotation.x=Math.PI/3.5;oRing1.position.set(1.5,0.3,0);scene.add(oRing1);
+  const oRing2=new THREE.Mesh(new THREE.TorusGeometry(3,0.01,8,80),
+    new THREE.MeshBasicMaterial({color:0xd4622a,transparent:true,opacity:0.1}));
+  oRing2.rotation.x=Math.PI/5;oRing2.rotation.z=Math.PI/4;oRing2.position.set(1.5,0.3,0);scene.add(oRing2);
+
+  /* ORBITING SPHERES */
+  const orbitSpheres=[];
+  [{r:2.4,speed:0.4,angle:0,color:0xe8a030,size:0.07},{r:2.4,speed:0.4,angle:Math.PI,color:0x00ff9d,size:0.05},{r:3,speed:0.25,angle:Math.PI/3,color:0xd4622a,size:0.09}].forEach(d=>{
+    const m=new THREE.Mesh(new THREE.SphereGeometry(d.size,8,8),new THREE.MeshStandardMaterial({color:d.color,emissive:d.color,emissiveIntensity:2}));
+    scene.add(m);orbitSpheres.push({mesh:m,...d});
+  });
+
+  /* PARTICLES */
+  const pCount=200;
+  const pPos=new Float32Array(pCount*3);
+  const pSpd=new Float32Array(pCount);
+  for(let i=0;i<pCount;i++){
+    pPos[i*3]=(Math.random()-0.5)*16;pPos[i*3+1]=(Math.random()-0.5)*10;pPos[i*3+2]=(Math.random()-0.5)*8-1;
+    pSpd[i]=0.003+Math.random()*0.006;
+  }
+  const pGeo=new THREE.BufferGeometry();
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xe8a030,size:0.05,transparent:true,opacity:0.5})));
 
   let mx=0,my=0;
   document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5)*2;my=(e.clientY/window.innerHeight-0.5)*2;});
@@ -1319,17 +1450,21 @@ function handleForm(btn){
   let t=0;
   function animate(){
     requestAnimationFrame(animate);t+=0.01;
-    /* Ember drift up */
-    const pa=pGeo.attributes.position.array;
-    for(let i=0;i<pCount;i++){pa[i*3+1]+=pSpd[i];if(pa[i*3+1]>7)pa[i*3+1]=-7;}
-    pGeo.attributes.position.needsUpdate=true;
-    /* Rings */
-    oR1.rotation.z+=0.003;oR2.rotation.y+=0.002;
-    /* Shards float */
+    gemGroup.position.y=0.3+Math.sin(t*0.7)*0.18;
+    gemGroup.rotation.y+=0.008;
+    gemGroup.rotation.x=my*0.12;
+    gem.rotation.y=t*0.3;
+    innerGem.rotation.y=-t*0.6;
+    innerGem.material.emissiveIntensity=2.5+Math.sin(t*3)*1.2;
+    pL1.intensity=7+Math.sin(t*2)*2;
     shards.forEach(s=>{s.t+=0.01;s.mesh.position.y=s.baseY+Math.sin(s.t*s.speed*3)*0.35;s.mesh.rotation.x+=0.02;s.mesh.rotation.z+=0.015;});
-    /* Light pulse */
-    pL1.intensity=5+Math.sin(t*1.5)*2;
-    camera.position.x=mx*0.4;camera.position.y=my*-0.2;camera.lookAt(0,0,0);
+    oRing1.rotation.z+=0.004;oRing2.rotation.y+=0.003;
+    orbitSpheres.forEach(o=>{o.angle+=o.speed*0.01;o.mesh.position.set(Math.cos(o.angle)*o.r+1.5,Math.sin(o.angle)*0.5,Math.sin(o.angle)*o.r);});
+    const pa=pGeo.attributes.position.array;
+    for(let i=0;i<pCount;i++){pa[i*3+1]+=pSpd[i];if(pa[i*3+1]>5)pa[i*3+1]=-5;}
+    pGeo.attributes.position.needsUpdate=true;
+    platformGroup.rotation.y+=0.003;
+    camera.position.x=4+mx*0.5;camera.position.y=1.5+my*-0.3;camera.lookAt(1.5,0.3,0);
     renderer.render(scene,camera);
   }animate();
 })();
