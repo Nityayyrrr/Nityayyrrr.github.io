@@ -156,8 +156,17 @@ section { padding:5.5rem 0;position:relative; }
 
 /* Hero content */
 .hero-content {
-  position:relative;z-index:2;
-  max-width:1100px;margin:0 auto;padding:0 2.5rem;width:100%;
+  position:relative;z-index:5;
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 2.5rem;
+  /* Only use left 48% so gem/robot don't overlap */
+  display:grid;
+  grid-template-columns: 48% 52%;
+}
+.hero-content > * {
+  grid-column: 1;
 }
 .hero-chapter {
   font-family:var(--font-hud);font-size:0.75rem;font-weight:600;
@@ -169,7 +178,7 @@ section { padding:5.5rem 0;position:relative; }
 
 .hero-name {
   font-family:var(--font-title);
-  font-size:clamp(3.5rem,9vw,7.5rem);
+  font-size:clamp(2.8rem,6vw,6rem);
   font-weight:700;line-height:0.9;
   color:var(--white);text-transform:uppercase;
   opacity:0;animation:fadeUp 0.7s 0.55s forwards;
@@ -611,9 +620,9 @@ footer p span { color:var(--gold); }
 }
 #avatar-wrap {
   position:absolute;
-  right:4%;
+  right:2%;
   bottom:0;
-  width:clamp(280px, 34vw, 480px);
+  width:clamp(260px, 30vw, 420px);
   height:100%;
   display:flex;
   align-items:flex-end;
@@ -1360,7 +1369,7 @@ function handleForm(btn){
   renderer.setSize(window.innerWidth,window.innerHeight);
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.1,100);
-  camera.position.set(4,1.5,7);
+  camera.position.set(5,1.5,7);
 
   /* LIGHTS */
   scene.add(new THREE.AmbientLight(0x1a100a,3));
@@ -1379,7 +1388,7 @@ function handleForm(btn){
 
   /* GEM GROUP */
   const gemGroup=new THREE.Group();
-  gemGroup.position.set(1.5,0.3,0);
+  gemGroup.position.set(2.5,0.3,0);
   scene.add(gemGroup);
   const gem=new THREE.Mesh(new THREE.OctahedronGeometry(1.1,0),crystalMat);
   gemGroup.add(gem);
@@ -1398,7 +1407,7 @@ function handleForm(btn){
 
   /* PLATFORM */
   const platformGroup=new THREE.Group();
-  platformGroup.position.set(1.5,-1.6,0);
+  platformGroup.position.set(2.5,-1.6,0);
   scene.add(platformGroup);
   const base=new THREE.Mesh(new THREE.CylinderGeometry(2,2.3,0.15,8),darkMat);
   platformGroup.add(base);
@@ -1419,10 +1428,10 @@ function handleForm(btn){
   /* ORBIT RINGS */
   const oRing1=new THREE.Mesh(new THREE.TorusGeometry(2.4,0.014,8,80),
     new THREE.MeshBasicMaterial({color:0xe8a030,transparent:true,opacity:0.18}));
-  oRing1.rotation.x=Math.PI/3.5;oRing1.position.set(1.5,0.3,0);scene.add(oRing1);
+  oRing1.rotation.x=Math.PI/3.5;oRing1.position.set(2.5,0.3,0);scene.add(oRing1);
   const oRing2=new THREE.Mesh(new THREE.TorusGeometry(3,0.01,8,80),
     new THREE.MeshBasicMaterial({color:0xd4622a,transparent:true,opacity:0.1}));
-  oRing2.rotation.x=Math.PI/5;oRing2.rotation.z=Math.PI/4;oRing2.position.set(1.5,0.3,0);scene.add(oRing2);
+  oRing2.rotation.x=Math.PI/5;oRing2.rotation.z=Math.PI/4;oRing2.position.set(2.5,0.3,0);scene.add(oRing2);
 
   /* ORBITING SPHERES */
   const orbitSpheres=[];
@@ -1459,12 +1468,12 @@ function handleForm(btn){
     pL1.intensity=7+Math.sin(t*2)*2;
     shards.forEach(s=>{s.t+=0.01;s.mesh.position.y=s.baseY+Math.sin(s.t*s.speed*3)*0.35;s.mesh.rotation.x+=0.02;s.mesh.rotation.z+=0.015;});
     oRing1.rotation.z+=0.004;oRing2.rotation.y+=0.003;
-    orbitSpheres.forEach(o=>{o.angle+=o.speed*0.01;o.mesh.position.set(Math.cos(o.angle)*o.r+1.5,Math.sin(o.angle)*0.5,Math.sin(o.angle)*o.r);});
+    orbitSpheres.forEach(o=>{o.angle+=o.speed*0.01;o.mesh.position.set(Math.cos(o.angle)*o.r+2.5,Math.sin(o.angle)*0.5,Math.sin(o.angle)*o.r);});
     const pa=pGeo.attributes.position.array;
     for(let i=0;i<pCount;i++){pa[i*3+1]+=pSpd[i];if(pa[i*3+1]>5)pa[i*3+1]=-5;}
     pGeo.attributes.position.needsUpdate=true;
     platformGroup.rotation.y+=0.003;
-    camera.position.x=4+mx*0.5;camera.position.y=1.5+my*-0.3;camera.lookAt(1.5,0.3,0);
+    camera.position.x=5+mx*0.4;camera.position.y=1.5+my*-0.3;camera.lookAt(2.5,0.3,0);
     renderer.render(scene,camera);
   }animate();
 })();
