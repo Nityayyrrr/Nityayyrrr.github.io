@@ -477,7 +477,8 @@ section { padding:5.5rem 0;position:relative; }
   width:40px;height:40px;flex-shrink:0;
   background:rgba(96,184,64,0.08);
   border:1px solid rgba(96,184,64,0.2);
-  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;font-size:0.6rem;
+  font-family:var(--font-hud);font-weight:700;color:var(--xp);letter-spacing:0.04em;
   clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
 }
 .cert-info .cert-name {
@@ -816,7 +817,8 @@ footer p span { color:var(--gold); }
   width:40px;height:40px;flex-shrink:0;
   background:rgba(96,184,64,0.08);
   border:1px solid rgba(96,184,64,0.2);
-  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;font-size:0.6rem;
+  font-family:var(--font-hud);font-weight:700;color:var(--xp);letter-spacing:0.04em;
   clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
 }
 .cert-info .cert-name {
@@ -1388,38 +1390,25 @@ footer p span { color:var(--gold); }
       </div>
 
       <div class="proj-card reveal reveal-delay-3">
-       <div class="proj-num">Project 03 · Real-Time System</div>
-
-<div class="proj-links">
-  <a href="https://github.com/Nityayyrrr/medroute" target="_blank">
-    Github
-  </a>
-</div>
-
-<div class="proj-body">
-  <h3 class="proj-name">MedRoute</h3>
-
-  <p class="proj-desc">
-    Real-time emergency ambulance coordination platform connecting patients,
-    drivers, and hospitals. Built with React Native + Expo for mobile clients
-    and a Node.js + Socket.io backend powering live bidirectional communication.
-    Implements a geospatial dispatch engine using MongoDB 2dsphere indexing
-    combined with a weighted scoring algorithm across live bed availability
-    and real-time ETA data. Redis manages ephemeral state including driver GPS
-    tracking and hospital bed counts, enabling sub-second updates across
-    multiple user roles.
-  </p>
-
-  <div class="proj-stack">
-    <span class="stack-tag">React Native</span>
-    <span class="stack-tag">Node.js</span>
-    <span class="stack-tag">Socket.io</span>
-    <span class="stack-tag">MongoDB</span>
-    <span class="stack-tag">Redis</span>
-    <span class="stack-tag">Geospatial</span>
-    <span class="stack-tag">Real-Time</span>
-  </div>
-</div>
+        <div class="proj-index">03</div>
+        <div class="proj-top">
+          <div class="proj-num">Project 03 · Real-Time System</div>
+          <div class="proj-links"><a href="https://github.com/Nityayyrrr/medroute" target="_blank">↗ GitHub</a></div>
+        </div>
+        <div class="proj-body">
+          <h3 class="proj-name">MedRoute</h3>
+          <p class="proj-desc">Real-time emergency ambulance coordination platform connecting patients, drivers, and hospitals. Built with React Native + Expo for mobile clients and a Node.js + Socket.io backend powering live bidirectional communication. Implements a geospatial dispatch engine using MongoDB 2dsphere indexing combined with a weighted scoring algorithm across live bed availability and real-time ETA data. Redis manages ephemeral state including driver GPS tracking and hospital bed counts, enabling sub-second updates across multiple user roles.</p>
+          <div class="proj-stack">
+            <span class="stack-tag">React Native</span>
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">Socket.io</span>
+            <span class="stack-tag">MongoDB</span>
+            <span class="stack-tag">Redis</span>
+            <span class="stack-tag">Geospatial</span>
+            <span class="stack-tag">Real-Time</span>
+          </div>
+        </div>
+      </div>
 
       <div class="proj-card reveal reveal-delay-4">
         <div class="proj-index">04</div>
@@ -1451,28 +1440,28 @@ footer p span { color:var(--gold); }
     </div>
     <div class="certs-grid">
       <div class="cert-card reveal reveal-delay-1">
-        <div class="cert-icon">⚡</div>
+        <div class="cert-icon">C++</div>
         <div class="cert-info">
           <div class="cert-name">Programming Fundamentals in C++</div>
           <div class="cert-tag">Achievement Unlocked</div>
         </div>
       </div>
       <div class="cert-card reveal reveal-delay-2">
-        <div class="cert-icon">☕</div>
+        <div class="cert-icon">JV</div>
         <div class="cert-info">
           <div class="cert-name">Java Programming Basics</div>
           <div class="cert-tag">Achievement Unlocked</div>
         </div>
       </div>
       <div class="cert-card reveal reveal-delay-3">
-        <div class="cert-icon">🐍</div>
+        <div class="cert-icon">PY</div>
         <div class="cert-info">
           <div class="cert-name">Python Programming Fundamentals</div>
           <div class="cert-tag">Achievement Unlocked</div>
         </div>
       </div>
       <div class="cert-card reveal reveal-delay-4">
-        <div class="cert-icon">🤖</div>
+        <div class="cert-icon">KT</div>
         <div class="cert-info">
           <div class="cert-name">Android Development Basics (Kotlin)</div>
           <div class="cert-tag">Achievement Unlocked</div>
